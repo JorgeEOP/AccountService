@@ -4,13 +4,12 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Account extends AccountBase {
+	
 	public static String createNewAccountId() {
 		Date now = new Date();
-		UUID uuid = UUID.randomUUID();
 		long nowInMs = now.getTime();
 		String nowAsString = String.valueOf(nowInMs);
-		String UUIDAsString = String.valueOf(nowInMs);
-		String accountId = "K" + nowAsString + UUIDAsString;
+		String accountId = "K" + nowAsString;
 		return accountId;
 	}
 }

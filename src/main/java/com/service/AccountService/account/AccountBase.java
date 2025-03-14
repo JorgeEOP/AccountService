@@ -8,11 +8,11 @@ public abstract class AccountBase {
 	protected Long customerID;
 	protected float credit;
 	
-	boolean addCredit() {
+	public boolean addCredit(long credit) {
 		boolean addedCredit = false;
 		return addedCredit;
 	};
-	boolean reduceCredit() {
+	public boolean reduceCredit() {
 		boolean reducedCredit = false;
 		return reducedCredit;
 	};

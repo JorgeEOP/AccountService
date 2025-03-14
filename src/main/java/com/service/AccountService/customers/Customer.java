@@ -1,36 +1,76 @@
 package com.service.AccountService.customers;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 import com.service.AccountService.account.Account;
 
+@Entity
 public class Customer {
-	private long customerId;
+	
+	@Id @GeneratedValue
 	Long id;
-	private Map<String, Account> accounts;
-	Customer() {
-		String idAsString = Customer.createCustomerId();
-		this.id = Long.valueOf(idAsString);
-		System.out.printf("New Customer Created with Id: " + idAsString);
+	private long customerId;
+	private Set<String> accounts;
+	private String firstName;
+	private String lastName;
+	private String age;
+	//private Account activeAccount;
+	
+	public Customer(String firstName) {
+		//long customerId = Customer.createCustomerId();
+		//this.id = customerId;
+		this.firstName = firstName;
+		System.out.printf("New Customer Created with Id: " + this.id + "\n");
+		System.out.printf("New Customer Created with Name: " + this.firstName + "\n");
+		
+		//System.out.printf("New Customer Created with Id: " + customerId + "\n");
 	}
 	/**
 	 * 
 	 */
 	public void addAccount() {
 		try {
-			Account newAccount = new Account();
 			String accountId = Account.createNewAccountId();
 
 			if (this.accounts == null) {
-				this.accounts = new HashMap<>();
+				this.accounts = new HashSet<String>();
 			}
+			
+			if(this.accounts.contains(accountId) == false) {
+				this.accounts.add(accountId);
+			}
+			//this.activeAccount = new Account();
+			
+			System.out.printf("New Account added.");
+		} catch (Exception e) {
+			System.out.printf(e + "Customer::addAccount: failed to add an account");
+		}
+	}
+	public void addAccount(long initialCredit) {
+		try {
+			String accountId = Account.createNewAccountId();
 
-			if (this.accounts.containsKey(accountId) == false) {
-				this.accounts.put(accountId, newAccount);
+			if (this.accounts == null) {
+				this.accounts = new HashSet<String>();
 			}
+			
+			if(this.accounts.contains(accountId) == false) {
+				this.accounts.add(accountId);
+			}
+			
+			//this.activeAccount = new Account();
+			
+			//if (initialCredit > 0) {
+			//	this.activeAccount.addCredit(initialCredit);
+			//}
 			
 			System.out.printf("New Account added.");
 		} catch (Exception e) {
@@ -38,17 +78,20 @@ public class Customer {
 		}
 	}
 
+	/**
+	 * 
+	 * @param accountId
+	 */
 	public void removeAccount(Long accountId) {
 	}
-	
-	public static String createCustomerId() {
+	/**
+	 * 
+	 * @return
+	 */
+	public static long createCustomerId() {
 		Date now = new Date();
-		UUID uuid = UUID.randomUUID();
 		long nowInMs = now.getTime();
-		String nowAsString = String.valueOf(nowInMs);
-		String UUIDAsString = String.valueOf(nowInMs);
 		
-		String idAsString = nowAsString + UUIDAsString;
-		return idAsString;
+		return nowInMs;
 	}
 }

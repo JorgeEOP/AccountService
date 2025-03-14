@@ -6,17 +6,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.service.AccountService.customers.Customer;
+
 @RestController
 public class AccountController {
 
 	  //AccountController(EmployeeRepository repository) {
-	  AccountController() {
+	  //AccountController() {
 	    //this.repository = repository;
-	  }
+	  //}
 	  
 	 @PostMapping("/account/newAccount")
 	 public String openNewAccount(@RequestBody String customerInfo) {
-		 //JSONParser parser = new JSONParser();
 		 JSONTokener tokener = new JSONTokener(customerInfo);
 		 JSONObject json = null;
 		 try {
@@ -27,9 +28,9 @@ public class AccountController {
 			 return "Account Opened\n";
 		 } catch(JSONException e) {
 			 e.printStackTrace();
-			 return "Invalid Json\n";
+			 String error = "{\"Bad Request\": 400}";
+			 return error;
 		 }
-		 
 	 }
 	 /**
 	  * Returns the current account Balance
