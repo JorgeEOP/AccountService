@@ -1,7 +1,7 @@
-package com.service.AccountService.Loaders;
+package com.service.AccountService.loaders;
 
-import com.service.AccountService.Repositories.CustomersRepo;
 import com.service.AccountService.customers.Customer;
+import com.service.AccountService.repositories.CustomersRepo;
 
 import java.io.IOException;
 import java.io.InputStream;

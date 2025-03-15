@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.service.AccountService.Repositories.CustomersRepo;
+import com.service.AccountService.repositories.CustomersRepo;
 
 @SpringBootApplication()
 public class AccountServiceApplication {

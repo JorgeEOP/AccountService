@@ -6,34 +6,34 @@ import java.util.List;
 import java.util.Set;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import com.service.AccountService.account.Account;
+import com.service.AccountService.service.CustomerAccountService;
 
 @Entity
 public class Customer {
-	
+
 	@Id @GeneratedValue
 	Long id;
 	private long customerId;
+    //@OneToMany(mappedBy = "id")
 	private Set<String> accounts;
 	private String firstName;
 	private String lastName;
 	private Long age;
-	//private Account activeAccount;
+	private Account activeAccount;
 	
+	Customer() {}
 	public Customer(String firstName) {
-		//long customerId = Customer.createCustomerId();
-		//this.id = customerId;
 		this.firstName = firstName;
-		System.out.printf("New Customer Created with Id: " + this.id + "\n");
-		System.out.printf("New Customer Created with Name: " + this.firstName + "\n");
-		
-		//System.out.printf("New Customer Created with Id: " + customerId + "\n");
 	}
 	public Customer(Long customerId, String lastName, String firstName, Set<String> accounts, Long age) {
 		this.customerId = customerId;
@@ -42,57 +42,27 @@ public class Customer {
 		this.age = age;
 		this.accounts = accounts;
 		
-		System.out.printf("New Customer Created with CustomerId: " + this.customerId + "\n");
-		System.out.printf("New Customer Created with LastName: " + this.lastName + "\n");
-		System.out.printf("New Customer Created with FirstName: " + this.firstName + "\n");
-		System.out.printf("New Customer Created with Age: " + this.age + "\n");
+		System.out.printf("[Customer]:: New Customer Created with CustomerId: " + this.customerId + "\n");
+		System.out.printf("[Customer]:: New Customer Created with LastName: " + this.lastName + "\n");
+		System.out.printf("[Customer]:: New Customer Created with FirstName: " + this.firstName + "\n");
+		System.out.printf("[Customer]:: New Customer Created with Age: " + this.age + "\n");
+		System.out.printf("[Customer]:: --------------------------------------------------------------\n");
 	}
 	
-	/**
-	 * 
-	 */
-	public void addAccount() {
+	public boolean addAccount(Long initialCredit) {
 		try {
+			boolean accountAdded = false;
 			String accountId = Account.createNewAccountId();
-
-			if (this.accounts == null) {
-				this.accounts = new HashSet<String>();
-			}
+			//this.activeAccount = new Account(accountId);
+			//System.out.printf("New Account" + accountId + "added to Customer: " + customerId + "\n");
 			
-			if(this.accounts.contains(accountId) == false) {
-				this.accounts.add(accountId);
-			}
-			//this.activeAccount = new Account();
-			
-			System.out.printf("New Account added.");
+			System.out.printf("New Account added. \n");
+			return accountAdded;
 		} catch (Exception e) {
-			System.out.printf(e + "Customer::addAccount: failed to add an account");
+			System.out.printf(e + "Customer::addAccount: failed to add an account\n");
+			return false;
 		}
 	}
-	public void addAccount(long initialCredit) {
-		try {
-			String accountId = Account.createNewAccountId();
-
-			if (this.accounts == null) {
-				this.accounts = new HashSet<String>();
-			}
-			
-			if(this.accounts.contains(accountId) == false) {
-				this.accounts.add(accountId);
-			}
-			
-			//this.activeAccount = new Account();
-			
-			//if (initialCredit > 0) {
-			//	this.activeAccount.addCredit(initialCredit);
-			//}
-			
-			System.out.printf("New Account added.");
-		} catch (Exception e) {
-			System.out.printf(e + "Customer::addAccount: failed to add an account");
-		}
-	}
-
 	/**
 	 * 
 	 * @param accountId
