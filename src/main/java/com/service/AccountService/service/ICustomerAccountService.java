@@ -5,5 +5,6 @@ public interface ICustomerAccountService {
 	 * 
 	 * @return if account was successfully added
 	 */
-	boolean addAccountToCustomer(Long customerId, Long initialCredit);
+	boolean addAccountToCustomer(Long customerId, double initialCredit);
+	String getCustomerInfo(Long customerId);
 }

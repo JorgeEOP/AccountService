@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.AccountService.customers.Customer;
+import com.service.AccountService.models.Customer;
 
 @RestController
 public class AccountController {
@@ -20,8 +20,6 @@ public class AccountController {
 			String data = "CustomerId: " + json.getString("customerId") + " ; InitialCredit: " + json.getString("initialCredit") + "\n";
 			System.out.printf("AccountController::Request to open an Account: " + data);
 			
-			
-
 			return "Account Opened\n";
 		} catch (JSONException e) {
 			e.printStackTrace();

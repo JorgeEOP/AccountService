@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.AccountService.customers.Customer;
 import com.service.AccountService.loaders.CustomersLoader;
+import com.service.AccountService.models.Customer;
 import com.service.AccountService.repositories.CustomersRepo;
 import com.service.AccountService.service.CustomerAccountService;
 
@@ -24,7 +24,7 @@ public class CustomerController {
 	private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 	
 	@Autowired
-	private CustomerAccountService customerService;
+	private CustomerAccountService customerAccountService;
 
 	@PostMapping("/customer/newAccount")
 	public String openNewAccount(@RequestBody String customerInfo) {
@@ -32,14 +32,12 @@ public class CustomerController {
 		JSONObject json = null;
 		try {
 			json = new JSONObject(tokener);
-			//String data = "CustomerId: " + json.getString("customerId") + " ; InitialCredit: " + json.getString("initialCredit") + "\n";
-			//log.info("openNewAccount::Request to open an Account: " + data);
-			
 			Long customerId = json.getLong("customerId");
 			Long initialCredit = json.getLong("initialCredit");
+
+			log.info("[CustomerController]openNewAccount:: CustomerId: " + customerId);
 			
-			boolean accountAdded = customerService.addAccountToCustomer(customerId, initialCredit);
-			
+			boolean accountAdded = customerAccountService.addAccountToCustomer(customerId, initialCredit);
 			if (accountAdded) {
         		return "Account Opened\n";
 			}
@@ -55,7 +53,8 @@ public class CustomerController {
 	@PostMapping("/customer/getInfo")
 	public String getInfo(@RequestBody Long customerId) {
 		try {
-			return "customerId";
+			String info = customerAccountService.getCustomerInfo(customerId);
+			return info;
 		} catch (JSONException e) {
 			e.printStackTrace();
 			String error = "{\"Bad Request\": 400}";

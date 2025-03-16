@@ -1,10 +1,13 @@
-package com.service.AccountService.account;
+package com.service.AccountService.models;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToOne;
 
 /**
  * Base Account Class
@@ -14,25 +17,54 @@ public abstract class AccountBase implements Serializable {
 
 	@Id
 	protected String accountId;
-	protected float credit;
-	protected Long customerId;
-	protected Long initialCredit;
+	@ManyToOne
+	@JoinColumn(name = "customerId")
+	private Customer customer;
+	private double initialCredit;
+	private double credit;
+
 	/**
 	 * 
+	 * @param accountId
 	 */
 	public void setId(String accountId) {
 		this.accountId = accountId;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public String getAccountId() {
 		return this.accountId;
 	}
 	/**
 	 * 
+	 * @param customer
+	 */
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	/**
+	 * 
 	 * @param initialCredit
 	 */
-	public void setInitialCredit(Long initialCredit) {
+	public void setInitialCredit(double initialCredit) {
 		this.initialCredit = initialCredit;
 		this.credit = initialCredit;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public double getInitialCredit() {
+		return this.initialCredit;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public double getCredit() {
+		return this.credit;
 	}
 	/**
 	 * 

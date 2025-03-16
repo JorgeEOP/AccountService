@@ -1,4 +1,4 @@
-package com.service.AccountService.account;
+package com.service.AccountService.models;
 
 import java.util.Date;
 import java.util.UUID;
@@ -7,16 +7,22 @@ import jakarta.persistence.Entity;
 
 @Entity
 public class Account extends AccountBase {
-	public Account() {
-		System.out.printf("CreatingAnAccount");
+	public Account() {}
+	/**
+	 * 
+	 * @param initialCredit
+	 */
+	public Account(double initialCredit) {
+		System.out.printf("Account::CreatingAnAccount with initial Credit: " + initialCredit);
 		this.accountId = AccountBase.createNewAccountId();
+		this.setInitialCredit(initialCredit);
 	}
 	/**
 	 * 
 	 * @param accountId
 	 * @param initialCredit
 	 */
-	public Account(String accountId, Long initialCredit) {
+	public Account(String accountId, double initialCredit) {
 		this.setId(accountId);
 		this.setInitialCredit(initialCredit);
 	}

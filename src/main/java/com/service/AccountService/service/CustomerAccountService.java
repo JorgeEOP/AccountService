@@ -5,9 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.service.AccountService.account.Account;
-import com.service.AccountService.controllers.CustomerController;
-import com.service.AccountService.customers.Customer;
+import com.service.AccountService.models.Account;
+import com.service.AccountService.models.Customer;
 import com.service.AccountService.repositories.CustomersRepo;
 import com.service.AccountService.repositories.AccountsRepo;
 
@@ -22,22 +21,39 @@ public class CustomerAccountService implements ICustomerAccountService {
 	private AccountsRepo accountsRepo;
 	
 	@Override
-	public boolean addAccountToCustomer(Long customerId, Long initialCredit) {
-		boolean added = false;
-		
-		Account account = new Account();
-		String accountId = account.getAccountId();
-		accountsRepo.save(account);
-		
-		log.info("addAccountToCostumer:: customerId:ACCOUNT_ID: " + accountId + "\n");
-		
-		//AccountsRepo.save(null)
-		
+	public boolean addAccountToCustomer(Long customerId, double initialCredit) {
+		try {
+			// Add the account to Accounts DB
+			Account account = new Account(initialCredit);
+			Customer customer = customersRepo.findByCustomerId(customerId);
+			account.setCustomer(customer);
+			accountsRepo.save(account);
+			
+			log.info("addAccountToCustomer::New Account (" + account.getAccountId() + ") Added to Customer (" + customer.getCustomerId() + ")");
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	public String getCustomerInfo(Long customerId) {
+		String info = "";
 		Customer customer = customersRepo.findByCustomerId(customerId);
-		boolean accountAdded = customer.addAccount(initialCredit);
-		
-		log.info("addAccountToCostumer:: customerId: " + customerId + " InitialCredit: " + initialCredit + "\n");
-		
-		return added;
+		return info;
+	}
+
+	/**
+	 * 
+	 * @param customer
+	 */
+	public void addCustomer(Customer customer) {
+		customersRepo.save(customer);
+	}
+	/**
+	 * 
+	 * @param account
+	 */
+	public void addAccount(Account account) {
+		accountsRepo.save(account);
 	}
 }
