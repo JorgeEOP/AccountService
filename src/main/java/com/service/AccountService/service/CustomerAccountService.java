@@ -1,5 +1,6 @@
 package com.service.AccountService.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -50,18 +51,23 @@ public class CustomerAccountService implements ICustomerAccountService {
 		JSONObject json = new JSONObject();
 		json.put("Name", customer.getFirstName());
 		json.put("Surname", customer.getLastName());
+
+		ArrayList<Object> allAccounts = new ArrayList<Object>();
 		
 		for (int i = 0; i < accounts.size() ; ++i) {
 			JSONObject accountInfo = new JSONObject();
+			
 			Account account = accounts.get(i);
 			double balance = account.getCredit();
 			Long transactions = transactionService.getTransactionsFromAccount(account);
 
+			accountInfo.put("accountId", account.getAccountId());
 			accountInfo.put("balance", balance);
 		    accountInfo.put("transactions", transactions);
-
-			json.put(account.getAccountId(), accountInfo);
+		    
+		    allAccounts.add(accountInfo);
 		}
+		json.put("accounts", allAccounts);
 		
 		return json.toString();
 	}
