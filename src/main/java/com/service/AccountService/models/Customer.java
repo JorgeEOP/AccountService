@@ -16,7 +16,6 @@ public class Customer {
 
 	@Id @GeneratedValue
 	Long id;
-	//private long customerUniqueId;
 	private long customerId;
     
     @OneToMany(mappedBy = "customer")

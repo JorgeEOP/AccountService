@@ -64,6 +64,7 @@ public class CustomersLoader implements CommandLineRunner {
 						if (customer != null) {
 							customerAccountService.addCustomer(customer);
 						}
+						// Could use here addAccountToCustomer
 						if(customer.getAccounts().size() > 0) {
 							this.addAccounts(customer.getAccounts());
 						}

@@ -61,4 +61,15 @@ public class CustomerController {
 			return error;
 		}
 	}
+	
+	@GetMapping("/customer/test")
+	public String getTest() {
+		try {
+			return "Works!";
+		} catch (JSONException e) {
+			e.printStackTrace();
+			String error = "{\"Bad Request\": 400}";
+			return error;
+		}
+	}
 }

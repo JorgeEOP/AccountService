@@ -1,5 +1,8 @@
 package com.service.AccountService.service;
 
+import java.util.List;
+
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ public class CustomerAccountService implements ICustomerAccountService {
 	private CustomersRepo customersRepo;
 	@Autowired
 	private AccountsRepo accountsRepo;
+	@Autowired
+	private TransactionService transactionService;  // This does should not be here!
 	
 	@Override
 	public boolean addAccountToCustomer(Long customerId, double initialCredit) {
@@ -28,6 +33,8 @@ public class CustomerAccountService implements ICustomerAccountService {
 			Customer customer = customersRepo.findByCustomerId(customerId);
 			account.setCustomer(customer);
 			accountsRepo.save(account);
+
+			transactionService.addInitialCredit(account);
 			
 			log.info("addAccountToCustomer::New Account (" + account.getAccountId() + ") Added to Customer (" + customer.getCustomerId() + ")");
 
@@ -37,9 +44,26 @@ public class CustomerAccountService implements ICustomerAccountService {
 		}
 	}
 	public String getCustomerInfo(Long customerId) {
-		String info = "";
 		Customer customer = customersRepo.findByCustomerId(customerId);
-		return info;
+		List<Account> accounts = customer.getAccounts();
+		
+		JSONObject json = new JSONObject();
+		json.put("Name", customer.getFirstName());
+		json.put("Surname", customer.getLastName());
+		
+		for (int i = 0; i < accounts.size() ; ++i) {
+			JSONObject accountInfo = new JSONObject();
+			Account account = accounts.get(i);
+			double balance = account.getCredit();
+			Long transactions = transactionService.getTransactionsFromAccount(account);
+
+			accountInfo.put("balance", balance);
+		    accountInfo.put("transactions", transactions);
+
+			json.put(account.getAccountId(), accountInfo);
+		}
+		
+		return json.toString();
 	}
 
 	/**
