@@ -2,20 +2,14 @@ package com.service.AccountService.loaders;
 
 import com.service.AccountService.models.Account;
 import com.service.AccountService.models.Customer;
-import com.service.AccountService.repositories.AccountsRepo;
-import com.service.AccountService.repositories.CustomersRepo;
 import com.service.AccountService.service.CustomerAccountService;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

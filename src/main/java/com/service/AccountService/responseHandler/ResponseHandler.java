@@ -1,8 +1,5 @@
 package com.service.AccountService.responseHandler;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

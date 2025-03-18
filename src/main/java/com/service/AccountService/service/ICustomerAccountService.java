@@ -1,13 +1,13 @@
 package com.service.AccountService.service;
 
-import org.json.JSONObject;
+import com.service.AccountService.models.Account;
 
 public interface ICustomerAccountService {
 	/**
 	 * 
 	 * @return if account was successfully added
 	 */
-	boolean addAccountToCustomer(Long customerId, double initialCredit);
+	Account addAccountToCustomer(Long customerId, double initialCredit);
 	/**
 	 * 
 	 * @param customerId

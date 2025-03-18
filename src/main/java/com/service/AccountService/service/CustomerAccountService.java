@@ -28,23 +28,22 @@ public class CustomerAccountService implements ICustomerAccountService {
 	private TransactionService transactionService;  // This does should not be here!
 	
 	@Override
-	public boolean addAccountToCustomer(Long customerId, double initialCredit) {
-		try {
-			// Add the account to Accounts DB
-			Account account = new Account(initialCredit);
-			Customer customer = customersRepo.findByCustomerId(customerId);
-			account.setCustomer(customer);
-			accountsRepo.save(account);
+	public Account addAccountToCustomer(Long customerId, double initialCredit) {
+		// Add the account to Accounts DB
+		Account account = new Account(initialCredit);
+		Customer customer = customersRepo.findByCustomerId(customerId);
+		account.setCustomer(customer);
+		accountsRepo.save(account);
 
-			transactionService.addInitialCredit(account);
-			
-			log.info("addAccountToCustomer::New Account (" + account.getAccountId() + ") Added to Customer (" + customer.getCustomerId() + ")");
+		transactionService.addInitialCredit(account);
+		log.info("addAccountToCustomer::New Account (" + account.getAccountId() + ") Added to Customer ("
+				+ customer.getCustomerId() + ")");
 
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
+		return account;
 	}
+	/**
+	 * 
+	 */
 	public String getCustomerInfo(Long customerId) {
 		
 		Customer customer = customersRepo.findByCustomerId(customerId);
