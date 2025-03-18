@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.service.AccountService.models.Account;
 import com.service.AccountService.models.Customer;
 import com.service.AccountService.repositories.CustomersRepo;
+import com.service.AccountService.response.ECustomerNotFound;
 import com.service.AccountService.repositories.AccountsRepo;
 
 @Service
@@ -45,31 +46,38 @@ public class CustomerAccountService implements ICustomerAccountService {
 		}
 	}
 	public String getCustomerInfo(Long customerId) {
+		
 		Customer customer = customersRepo.findByCustomerId(customerId);
-		List<Account> accounts = customer.getAccounts();
 		
-		JSONObject json = new JSONObject();
-		json.put("Name", customer.getFirstName());
-		json.put("Surname", customer.getLastName());
-
-		ArrayList<Object> allAccounts = new ArrayList<Object>();
-		
-		for (int i = 0; i < accounts.size() ; ++i) {
-			JSONObject accountInfo = new JSONObject();
+		if (customer != null) {
+			List<Account> accounts = customer.getAccounts();
 			
-			Account account = accounts.get(i);
-			double balance = account.getCredit();
-			Long transactions = transactionService.getTransactionsFromAccount(account);
+			JSONObject json = new JSONObject();
+			json.put("Name", customer.getFirstName());
+			json.put("Surname", customer.getLastName());
 
-			accountInfo.put("accountId", account.getAccountId());
-			accountInfo.put("balance", balance);
-		    accountInfo.put("transactions", transactions);
-		    
-		    allAccounts.add(accountInfo);
+			ArrayList<Object> allAccounts = new ArrayList<Object>();
+			
+			for (int i = 0; i < accounts.size() ; ++i) {
+				JSONObject accountInfo = new JSONObject();
+				
+				Account account = accounts.get(i);
+				double balance = account.getCredit();
+				Long transactions = transactionService.getTransactionsFromAccount(account);
+
+				accountInfo.put("accountId", account.getAccountId());
+				accountInfo.put("balance", balance);
+			    accountInfo.put("transactions", transactions);
+			    
+			    allAccounts.add(accountInfo);
+			}
+			json.put("accounts", allAccounts);
+			
+			return json.toString();
+
+		} else {
+			throw new ECustomerNotFound("Customer with Id: " + customerId + " not found!");
 		}
-		json.put("accounts", allAccounts);
-		
-		return json.toString();
 	}
 
 	/**

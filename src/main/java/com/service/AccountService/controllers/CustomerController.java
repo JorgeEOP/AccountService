@@ -1,7 +1,5 @@
 package com.service.AccountService.controllers;
 
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -13,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.AccountService.loaders.CustomersLoader;
-import com.service.AccountService.models.Customer;
-import com.service.AccountService.repositories.CustomersRepo;
+import com.service.AccountService.response.AccountServiceResponse;
+import com.service.AccountService.response.EInvalidParameters;
+import com.service.AccountService.responseHandler.ResponseHandler;
 import com.service.AccountService.service.CustomerAccountService;
 
 @RestController
@@ -25,7 +23,11 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerAccountService customerAccountService;
-
+	/**
+	 * 
+	 * @param customerInfo
+	 * @return
+	 */
 	@PostMapping("/customer/newAccount")
 	public String openNewAccount(@RequestBody String customerInfo) {
 		JSONTokener tokener = new JSONTokener(customerInfo);
@@ -49,27 +51,14 @@ public class CustomerController {
 			return error;
 		}
 	}
-	
+	/**
+	 * 
+	 * @param customerId
+	 * @return
+	 */
 	@PostMapping("/customer/getInfo")
-	public String getInfo(@RequestBody Long customerId) {
-		try {
-			String info = customerAccountService.getCustomerInfo(customerId);
-			return info;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			String error = "{\"Bad Request\": 400}";
-			return error;
-		}
-	}
-	
-	@GetMapping("/customer/test")
-	public String getTest() {
-		try {
-			return "Works!";
-		} catch (JSONException e) {
-			e.printStackTrace();
-			String error = "{\"Bad Request\": 400}";
-			return error;
-		}
+	public AccountServiceResponse getInfo(@RequestBody Long customerId) {
+			String customerInfo = customerAccountService.getCustomerInfo(customerId);
+		    return ResponseHandler.success(customerInfo, "Customer Information");
 	}
 }
