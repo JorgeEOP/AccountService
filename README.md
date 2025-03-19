@@ -4,8 +4,8 @@ This is a project to show the usability of Java and Spring Boot to open REST API
 endpoints
 
 ## How to run the Service
-1. Clone this repo into your local system:
-2. run the command `mvn clean spring-boot:run`
+1. Clone this repo into your local system
+2. Run the command `mvn clean spring-boot:run`
 
 ## Test the EndPoints
 The Service will have two local Endpoints ( `localhost:8080` ) open named:
@@ -24,8 +24,7 @@ To test the endpoints you have two options:
     1.  `curl -X POST localhost:8080/customer/newAccount -H 'Content-type:application/json' -d '{"customerId": 1741900320602, "initialCredit": 100}' `
     2.  `curl -X POST localhost:8080/customer/getInfo -H 'Content-type:application/json' -d '1741900320602' `
  
-You can also use the UI provided in a different Repository.
-
+2. Use the UI provided in a different Repository.
 
 ## Available Customers
 The Service comes with some pre defined customers and information about their accounts.
@@ -48,3 +47,5 @@ with the initial values.
 
 Everytime you add an account to a customer, the *ACCOUNT* and *TRANSACTION* tables
 will be updated.
+
+Each Account can be referenced to a customerId. The relationship is ManyToOne.
