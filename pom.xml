@@ -71,12 +71,21 @@
 			<groupId>jakarta.persistence</groupId>
 			<artifactId>jakarta.persistence-api</artifactId>
 		</dependency>
-		<!-- NETFLIX EUREKA for MicroServices-->
+		<!-- NETFLIX EUREKA Client -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+
+		<!-- NETFLIX EUREKA Server
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 			<version>4.2.0</version>
 		</dependency>
+		-->
+
 	</dependencies>
 
 	<build>

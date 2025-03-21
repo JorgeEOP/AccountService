@@ -25,7 +25,7 @@ public class CustomerAccountService implements ICustomerAccountService {
 	@Autowired
 	private AccountsRepo accountsRepo;
 	@Autowired
-	private TransactionService transactionService;  // This does should not be here!
+	private TransactionService transactionService; // This does should not be here!
 	
 	@Override
 	public Account addAccountToCustomer(Long customerId, double initialCredit) {
